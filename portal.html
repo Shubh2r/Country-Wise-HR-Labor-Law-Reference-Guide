@@ -1,15 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HR Laws Portal</title>
+  <title>HR Universe - Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6fb;
+      color: #0a1f44;
+      margin: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #0a1f44;
+    }
+    #search {
+      width: 50%;
+      padding: 10px;
+      margin: 20px auto;
+      display: block;
+      border: 2px solid #0a1f44;
+      border-radius: 4px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      width: 50%;
+      margin: auto;
+    }
+    li {
+      margin: 8px 0;
+    }
+    a {
+      text-decoration: none;
+      color: #0a1f44;
+      font-weight: bold;
+    }
+    a:hover {
+      color: #163d7a;
+    }
+  </style>
 </head>
 <body>
-  <h1>HR & Labor Law Reference Guide</h1>
+  <h1>HR Universe - HR & Labour Guide</h1>
   <input type="text" id="search" placeholder="Search country..." onkeyup="searchCountry()">
   <ul id="results"></ul>
 
   <script>
-    // Full list of countries mapped to their Markdown files
     const countries = {
       // APAC
       "Australia": "APAC/Australia.md",
@@ -97,7 +133,6 @@
         if (c.toLowerCase().includes(query)) {
           let li = document.createElement("li");
           let link = document.createElement("a");
-          // Use markdown viewer for nicer rendering
           link.href = "markdown-viewer.html?file=" + countries[c];
           link.textContent = c;
           li.appendChild(link);
