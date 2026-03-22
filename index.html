@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HR Laws Portal - Login</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <form onsubmit="login(); return false;">
+    <label>Username:</label>
+    <input type="text" id="user"><br><br>
+    <label>Password:</label>
+    <input type="password" id="pass"><br><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    // Simple internal login (not secure)
+    const users = {
+      "shubh": "mypassword",
+      "hrteam": "secure123",
+      "guest": "guest123"
+    };
+
+    function login() {
+      let u = document.getElementById("user").value;
+      let p = document.getElementById("pass").value;
+      if(users[u] === p) {
+        // Redirect to portal page
+        window.location.href = "portal.html";
+      } else {
+        alert("Invalid login");
+      }
+    }
+  </script>
+</body>
+</html>
