@@ -1,14 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Markdown Viewer</title>
+  <title>HR Universe - Country Guide</title>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #0a1f44;
+      margin: 40px;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      color: #0a1f44;
+    }
+    a {
+      color: #0a1f44;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      background: #0a1f44;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+    .back:hover {
+      background: #163d7a;
+    }
+  </style>
 </head>
 <body>
+  <a href="portal.html" class="back">← Back to Portal</a>
   <div id="content"></div>
 
   <script>
-    // Get file name from URL query
     const params = new URLSearchParams(window.location.search);
     const file = params.get("file");
 
