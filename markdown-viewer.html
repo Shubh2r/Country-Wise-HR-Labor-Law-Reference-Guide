@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Markdown Viewer</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div id="content"></div>
+
+  <script>
+    // Get file name from URL query
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get("file");
+
+    if(file) {
+      fetch(file)
+        .then(response => response.text())
+        .then(text => {
+          document.getElementById("content").innerHTML = marked.parse(text);
+        });
+    } else {
+      document.getElementById("content").innerHTML = "<p>No file selected.</p>";
+    }
+  </script>
+</body>
+</html>
