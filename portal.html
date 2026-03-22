@@ -1,66 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8" />
   <title>HR Universe - Portal</title>
   <style>
+    :root {
+      --navy: #0a1f44;
+      --navy-dark: #163d7a;
+      --bg: #f4f6fb;
+      --white: #ffffff;
+    }
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f6fb;
-      color: #0a1f44;
+      background-color: var(--bg);
+      color: var(--navy);
       margin: 20px;
     }
-    h1 {
-      text-align: center;
-      color: #0a1f44;
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
     }
-    h2 {
-      color: #163d7a;
-      margin-top: 30px;
+    header {
       text-align: center;
+      margin-bottom: 18px;
+    }
+    header h1 {
+      margin: 6px 0;
+      color: var(--navy);
+      font-size: 28px;
+    }
+    header p {
+      margin: 0;
+      color: var(--navy-dark);
+      font-weight: 600;
     }
     #search {
-      width: 50%;
-      padding: 10px;
-      margin: 20px auto;
+      width: 100%;
+      max-width: 600px;
+      padding: 10px 12px;
+      margin: 18px auto;
       display: block;
-      border: 2px solid #0a1f44;
-      border-radius: 4px;
+      border: 2px solid var(--navy);
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 15px;
     }
-    ul {
-      list-style-type: none;
-      padding: 0;
-      width: 50%;
-      margin: auto;
+    #results {
+      max-width: 600px;
+      margin: 8px auto 24px;
+      text-align: left;
     }
-    li {
-      margin: 6px 0;
-      text-align: center;
-    }
-    a {
+    #results a {
+      display: inline-block;
+      margin: 6px 6px 6px 0;
+      padding: 6px 10px;
+      background: var(--white);
+      border: 1px solid var(--navy);
+      color: var(--navy);
       text-decoration: none;
-      color: #0a1f44;
-      font-weight: bold;
+      border-radius: 4px;
+      font-weight: 600;
     }
-    a:hover {
-      color: #163d7a;
+    #results a:hover { background: #eef3fb; color: var(--navy-dark); }
+
+    /* Dropdowns */
+    .region-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .dropdown {
+      width: 280px;
+      background: var(--white);
+      border: 1px solid var(--navy);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(10,31,68,0.06);
+    }
+    .dropdown .head {
+      background: var(--navy);
+      color: white;
+      padding: 12px 14px;
+      cursor: pointer;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dropdown .head:hover { background: var(--navy-dark); }
+    .dropdown .list {
+      display: none;
+      max-height: 300px;
+      overflow: auto;
+      background: var(--white);
+      padding: 8px;
+    }
+    .dropdown .list a {
+      display: block;
+      padding: 8px 10px;
+      color: var(--navy);
+      text-decoration: none;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .dropdown .list a:hover { background: #f4f8ff; color: var(--navy-dark); }
+
+    /* small screens */
+    @media (max-width: 640px) {
+      .region-row { flex-direction: column; align-items: center; }
+      .dropdown { width: 92%; }
+      #search { width: 92%; }
+      #results { width: 92%; }
     }
   </style>
 </head>
 <body>
-  <h1>HR Universe - HR & Labour Guide</h1>
-  <input type="text" id="search" placeholder="Search country..." onkeyup="searchCountry()">
-  <div id="results"></div>
+  <div class="container">
+    <header>
+      <h1>HR Universe</h1>
+      <p>HR & Labour Guide</p>
+    </header>
 
-  <h2>APAC</h2>
-  <ul id="apac-list"></ul>
+    <input id="search" type="text" placeholder="Search country (type and press Enter or click a result)..." onkeyup="searchCountry(event)">
 
-  <h2>EMEA</h2>
-  <ul id="emea-list"></ul>
+    <div id="results" aria-live="polite"></div>
 
-  <h2>Americas</h2>
-  <ul id="americas-list"></ul>
+    <div class="region-row">
+      <div class="dropdown" id="dropdown-apac">
+        <div class="head" onclick="toggleDropdown('apac')">
+          <span>APAC</span><span id="apac-caret">▾</span>
+        </div>
+        <div class="list" id="apac"></div>
+      </div>
+
+      <div class="dropdown" id="dropdown-emea">
+        <div class="head" onclick="toggleDropdown('emea')">
+          <span>EMEA</span><span id="emea-caret">▾</span>
+        </div>
+        <div class="list" id="emea"></div>
+      </div>
+
+      <div class="dropdown" id="dropdown-americas">
+        <div class="head" onclick="toggleDropdown('americas')">
+          <span>Americas</span><span id="americas-caret">▾</span>
+        </div>
+        <div class="list" id="americas"></div>
+      </div>
+    </div>
+  </div>
 
   <script>
+    // Full mapping - folder names must match exactly (case sensitive)
     const countries = {
       // APAC
       "Australia": "APAC/Australia.md",
@@ -127,7 +220,7 @@
       "Uganda": "EMEA/Uganda.md",
       "Ukraine": "EMEA/Ukraine.md",
 
-      // Americas 
+      // Americas (folder name: "Americas")
       "Argentina": "Americas/Argentina.md",
       "Brazil": "Americas/Brazil.md",
       "Canada": "Americas/Canada.md",
@@ -140,44 +233,112 @@
       "USA": "Americas/USA.md"
     };
 
-    function searchCountry() {
-      let query = document.getElementById("search").value.toLowerCase();
-      let results = document.getElementById("results");
-      results.innerHTML = "";
-      for (let c in countries) {
-        if (c.toLowerCase().includes(query)) {
-          let li = document.createElement("li");
-          let link = document.createElement("a");
-          link.href = "markdown-viewer.html?file=" + countries[c];
-          link.textContent = c;
-          li.appendChild(link);
-          results.appendChild(li);
+    // region arrays (complete lists)
+    const regions = {
+      apac: [
+        "Australia","Bangladesh","China","Hong Kong","India","Indonesia","Japan","Malaysia",
+        "Myanmar","Nepal","New Zealand","Pakistan","Philippines","Singapore","South Korea",
+        "Sri Lanka","Thailand","Vietnam"
+      ],
+      emea: [
+        "Algeria","Angola","Austria","Belgium","Bulgaria","Czech Republic","Denmark","Egypt",
+        "Finland","France","Germany","Greece","Hungary","Iceland","Ireland","Israel","Italy",
+        "Kenya","Kuwait","Luxembourg","Morocco","Netherland","Nigeria","Norway","Poland",
+        "Portugal","Qatar","Romania","Russia","Saudi Arabia","Senegal","Serbia","Slovakia",
+        "South Africa","Spain","Sweden","Switzerland","Tunisia","Turkey","UAE","UK","Uganda","Ukraine"
+      ],
+      americas: [
+        "Argentina","Brazil","Canada","Chile","Columbia","Madagascar","Mexico","Panama","Peru","USA"
+      ]
+    };
+
+    // Populate dropdown lists on load
+    function populateDropdowns() {
+      addRegionList('apac', regions.apac);
+      addRegionList('emea', regions.emea);
+      addRegionList('americas', regions.americas);
+    }
+
+    function addRegionList(id, list) {
+      const container = document.getElementById(id);
+      container.innerHTML = ''; // clear
+      list.forEach(country => {
+        const link = document.createElement('a');
+        link.href = "markdown-viewer.html?file=" + encodeURIComponent(countries[country] || '');
+        link.textContent = country;
+        link.onclick = function(e) {
+          // if file mapping missing, prevent navigation and show alert
+          if (!countries[country]) {
+            e.preventDefault();
+            alert('File not found for ' + country + '. Check mapping or filename case.');
+          }
+        };
+        container.appendChild(link);
+      });
+    }
+
+    // Toggle dropdown visibility
+    function toggleDropdown(id) {
+      const el = document.getElementById(id);
+      const caret = document.getElementById(id + '-caret') || document.getElementById(id + '-caret');
+      if (!el) return;
+      const isOpen = el.style.display === 'block';
+      // close all first
+      document.querySelectorAll('.dropdown .list').forEach(d => d.style.display = 'none');
+      document.querySelectorAll('.dropdown .head span:last-child').forEach(s => s.textContent = '▾');
+      if (!isOpen) {
+        el.style.display = 'block';
+        // update caret in head
+        const headCaret = document.querySelector('#dropdown-' + id + ' .head span:last-child');
+        if (headCaret) headCaret.textContent = '▴';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      const isHead = e.target.closest('.dropdown .head');
+      if (!isHead) {
+        document.querySelectorAll('.dropdown .list').forEach(d => d.style.display = 'none');
+        document.querySelectorAll('.dropdown .head span:last-child').forEach(s => s.textContent = '▾');
+      }
+    });
+
+    // Search function (shows matching links)
+    function searchCountry(event) {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const results = document.getElementById('results');
+      results.innerHTML = '';
+      if (!q) return;
+      let found = 0;
+      for (const name in countries) {
+        if (name.toLowerCase().includes(q)) {
+          const a = document.createElement('a');
+          a.href = "markdown-viewer.html?file=" + encodeURIComponent(countries[name]);
+          a.textContent = name;
+          results.appendChild(a);
+          found++;
+        }
+      }
+      if (found === 0) {
+        const p = document.createElement('div');
+        p.style.color = '#666';
+        p.style.marginTop = '8px';
+        p.textContent = 'No matches found.';
+        results.appendChild(p);
+      }
+      // If user pressed Enter and exactly one match, navigate
+      if (event && event.key === 'Enter') {
+        const links = results.querySelectorAll('a');
+        if (links.length === 1) {
+          window.location.href = links[0].href;
         }
       }
     }
 
-    // Populate region lists
-    function populateLists() {
-      const apac = ["Australia","Bangladesh","China","Hong Kong","India","Indonesia","Japan","Malaysia","Myanmar","Nepal","New Zealand","Pakistan","Philippines","Singapore","South Korea","Sri Lanka","Thailand","Vietnam"];
-      const emea = ["Algeria","Angola","Austria","Belgium","Bulgaria","Czech Republic","Denmark","Egypt","Finland","France","Germany","Greece","Hungary","Iceland","Ireland","Israel","Italy","Kenya","Kuwait","Luxembourg","Morocco","Netherland","Nigeria","Norway","Poland","Portugal","Qatar","Romania","Russia","Saudi Arabia","Senegal","Serbia","Slovakia","South Africa","Spain","Sweden","Switzerland","Tunisia","Turkey","UAE","UK","Uganda","Ukraine"];
-      const americas = ["Argentina","Brazil","Canada","Chile","Columbia","Madagascar","Mexico","Panama","Peru","USA"];
-
-      apac.forEach(c => addToList("apac-list", c));
-      emea.forEach(c => addToList("emea-list", c));
-      americas.forEach(c => addToList("americas-list", c));
-    }
-
-    function addToList(listId, country) {
-      let list = document.getElementById(listId);
-      let li = document.createElement("li");
-      let link = document.createElement("a");
-      link.href = "markdown-viewer.html?file=" + countries[country];
-      link.textContent = country;
-      li.appendChild(link);
-      list.appendChild(li);
-    }
-
-    populateLists();
+    // Initialize
+    populateDropdowns();
   </script>
 </body>
 </html>
