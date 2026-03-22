@@ -13,6 +13,11 @@
       text-align: center;
       color: #0a1f44;
     }
+    h2 {
+      color: #163d7a;
+      margin-top: 30px;
+      text-align: center;
+    }
     #search {
       width: 50%;
       padding: 10px;
@@ -28,7 +33,8 @@
       margin: auto;
     }
     li {
-      margin: 8px 0;
+      margin: 6px 0;
+      text-align: center;
     }
     a {
       text-decoration: none;
@@ -43,7 +49,16 @@
 <body>
   <h1>HR Universe - HR & Labour Guide</h1>
   <input type="text" id="search" placeholder="Search country..." onkeyup="searchCountry()">
-  <ul id="results"></ul>
+  <div id="results"></div>
+
+  <h2>APAC</h2>
+  <ul id="apac-list"></ul>
+
+  <h2>EMEA</h2>
+  <ul id="emea-list"></ul>
+
+  <h2>Americas</h2>
+  <ul id="americas-list"></ul>
 
   <script>
     const countries = {
@@ -79,7 +94,7 @@
       "Finland": "EMEA/Finland.md",
       "France": "EMEA/France.md",
       "Germany": "EMEA/Germany.md",
-      "Greece": "EMEA/Greece .md",
+      "Greece": "EMEA/Greece.md",
       "Hungary": "EMEA/Hungary.md",
       "Iceland": "EMEA/Iceland.md",
       "Ireland": "EMEA/Ireland.md",
@@ -112,7 +127,7 @@
       "Uganda": "EMEA/Uganda.md",
       "Ukraine": "EMEA/Ukraine.md",
 
-      // Americas
+      // Americas 
       "Argentina": "Americas/Argentina.md",
       "Brazil": "Americas/Brazil.md",
       "Canada": "Americas/Canada.md",
@@ -140,6 +155,29 @@
         }
       }
     }
+
+    // Populate region lists
+    function populateLists() {
+      const apac = ["Australia","Bangladesh","China","Hong Kong","India","Indonesia","Japan","Malaysia","Myanmar","Nepal","New Zealand","Pakistan","Philippines","Singapore","South Korea","Sri Lanka","Thailand","Vietnam"];
+      const emea = ["Algeria","Angola","Austria","Belgium","Bulgaria","Czech Republic","Denmark","Egypt","Finland","France","Germany","Greece","Hungary","Iceland","Ireland","Israel","Italy","Kenya","Kuwait","Luxembourg","Morocco","Netherland","Nigeria","Norway","Poland","Portugal","Qatar","Romania","Russia","Saudi Arabia","Senegal","Serbia","Slovakia","South Africa","Spain","Sweden","Switzerland","Tunisia","Turkey","UAE","UK","Uganda","Ukraine"];
+      const americas = ["Argentina","Brazil","Canada","Chile","Columbia","Madagascar","Mexico","Panama","Peru","USA"];
+
+      apac.forEach(c => addToList("apac-list", c));
+      emea.forEach(c => addToList("emea-list", c));
+      americas.forEach(c => addToList("americas-list", c));
+    }
+
+    function addToList(listId, country) {
+      let list = document.getElementById(listId);
+      let li = document.createElement("li");
+      let link = document.createElement("a");
+      link.href = "markdown-viewer.html?file=" + countries[country];
+      link.textContent = country;
+      li.appendChild(link);
+      list.appendChild(li);
+    }
+
+    populateLists();
   </script>
 </body>
 </html>
