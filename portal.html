@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>HR Universe - Portal</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root {
       --navy: #0a1f44;
@@ -10,125 +11,56 @@
       --bg: #f4f6fb;
       --white: #ffffff;
     }
-    body {
-      font-family: Arial, sans-serif;
-      background-color: var(--bg);
-      color: var(--navy);
-      margin: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 18px;
-    }
-    header h1 {
-      margin: 6px 0;
-      color: var(--navy);
-      font-size: 28px;
-    }
-    header p {
-      margin: 0;
-      color: var(--navy-dark);
-      font-weight: 600;
-    }
-    #search {
-      width: 100%;
-      max-width: 600px;
-      padding: 10px 12px;
-      margin: 18px auto;
-      display: block;
-      border: 2px solid var(--navy);
-      border-radius: 6px;
-      box-sizing: border-box;
-      font-size: 15px;
-    }
-    #results {
-      max-width: 600px;
-      margin: 8px auto 24px;
-      text-align: left;
-    }
-    #results a {
-      display: inline-block;
-      margin: 6px 6px 6px 0;
-      padding: 6px 10px;
-      background: var(--white);
-      border: 1px solid var(--navy);
-      color: var(--navy);
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-    #results a:hover { background: #eef3fb; color: var(--navy-dark); }
+    body { font-family: Arial, sans-serif; background-color: var(--bg); color: var(--navy); margin: 20px; -webkit-font-smoothing:antialiased; }
+    .container { max-width: 980px; margin: 0 auto; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+    header .brand { display:flex; flex-direction:column; }
+    header h1 { margin:0; color:var(--navy); font-size:22px; }
+    header .sub { color:var(--navy-dark); font-weight:600; }
+    .admin-btn { background:var(--navy); color:#fff; padding:8px 12px; border-radius:6px; border:none; cursor:pointer; font-weight:700; }
+    #search { width:100%; max-width:640px; padding:10px 12px; margin: 8px 0 18px; border:2px solid var(--navy); border-radius:6px; font-size:15px; display:block; }
+    #results { max-width:640px; margin-bottom:18px; }
+    #results a { display:inline-block; margin:6px 6px 6px 0; padding:6px 10px; background:var(--white); border:1px solid var(--navy); color:var(--navy); text-decoration:none; border-radius:4px; font-weight:600; }
+    #results a:hover { background:#eef3fb; color:var(--navy-dark); }
 
-    /* Dropdowns */
-    .region-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 10px;
-    }
-    .dropdown {
-      width: 280px;
-      background: var(--white);
-      border: 1px solid var(--navy);
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(10,31,68,0.06);
-    }
-    .dropdown .head {
-      background: var(--navy);
-      color: white;
-      padding: 12px 14px;
-      cursor: pointer;
-      font-weight: 700;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .dropdown .head:hover { background: var(--navy-dark); }
-    .dropdown .list {
-      display: none;
-      max-height: 300px;
-      overflow: auto;
-      background: var(--white);
-      padding: 8px;
-    }
-    .dropdown .list a {
-      display: block;
-      padding: 8px 10px;
-      color: var(--navy);
-      text-decoration: none;
-      border-radius: 4px;
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-    .dropdown .list a:hover { background: #f4f8ff; color: var(--navy-dark); }
+    .region-row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
+    .dropdown { width:300px; background:var(--white); border:1px solid var(--navy); border-radius:6px; overflow:hidden; box-shadow:0 2px 6px rgba(10,31,68,0.06); }
+    .dropdown .head { background:var(--navy); color:white; padding:12px 14px; cursor:pointer; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
+    .dropdown .head:hover { background:var(--navy-dark); }
+    .dropdown .list { display:none; max-height:320px; overflow:auto; background:var(--white); padding:8px; }
+    .dropdown .list a { display:block; padding:8px 10px; color:var(--navy); text-decoration:none; border-radius:4px; margin-bottom:4px; font-weight:600; }
+    .dropdown .list a:hover { background:#f4f8ff; color:var(--navy-dark); }
 
-    /* small screens */
-    @media (max-width: 640px) {
-      .region-row { flex-direction: column; align-items: center; }
-      .dropdown { width: 92%; }
-      #search { width: 92%; }
-      #results { width: 92%; }
+    /* Admin modal */
+    .admin-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); align-items:center; justify-content:center; z-index:9999; }
+    .admin-card { background:#fff; padding:18px; border-radius:8px; max-width:420px; width:92%; box-shadow:0 8px 24px rgba(10,31,68,0.12); color:var(--navy); }
+    .admin-card h3 { margin:0 0 8px; }
+    .admin-card p { margin:6px 0; font-weight:600; }
+    .admin-close { background:#eee; border:none; padding:8px 10px; border-radius:6px; cursor:pointer; margin-top:12px; }
+
+    @media (max-width:720px) {
+      .dropdown { width:92%; }
+      #search { width:92%; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>HR Universe</h1>
-      <p>HR & Labour Guide</p>
+      <div class="brand">
+        <h1>HR Universe</h1>
+        <div class="sub">HR &amp; Labour Guide</div>
+      </div>
+      <div>
+        <button class="admin-btn" onclick="showAdmin()">View Admin Details</button>
+      </div>
     </header>
 
-    <input id="search" type="text" placeholder="Search country (type and press Enter or click a result)..." onkeyup="searchCountry(event)">
+    <input id="search" type="text" placeholder="Search country..." onkeyup="searchCountry(event)" aria-label="Search country">
 
     <div id="results" aria-live="polite"></div>
 
-    <div class="region-row">
+    <div class="region-row" role="navigation" aria-label="Region lists">
       <div class="dropdown" id="dropdown-apac">
         <div class="head" onclick="toggleDropdown('apac')">
           <span>APAC</span><span id="apac-caret">▾</span>
@@ -148,6 +80,18 @@
           <span>Americas</span><span id="americas-caret">▾</span>
         </div>
         <div class="list" id="americas"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin modal -->
+  <div id="adminModal" class="admin-modal" onclick="closeAdmin(event)">
+    <div class="admin-card" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+      <h3>Admin Details</h3>
+      <p>Email: <a href="mailto:founder.nauticaluniverse@gmail.com" style="color:var(--navy); text-decoration:none;">founder.nauticaluniverse@gmail.com</a></p>
+      <p>Contact Number: <span style="font-weight:800;">+91-9421166566</span></p>
+      <div style="text-align:right;">
+        <button class="admin-close" onclick="closeAdmin()">Close</button>
       </div>
     </div>
   </div>
@@ -233,26 +177,12 @@
       "USA": "Americas/USA.md"
     };
 
-    // region arrays (complete lists)
     const regions = {
-      apac: [
-        "Australia","Bangladesh","China","Hong Kong","India","Indonesia","Japan","Malaysia",
-        "Myanmar","Nepal","New Zealand","Pakistan","Philippines","Singapore","South Korea",
-        "Sri Lanka","Thailand","Vietnam"
-      ],
-      emea: [
-        "Algeria","Angola","Austria","Belgium","Bulgaria","Czech Republic","Denmark","Egypt",
-        "Finland","France","Germany","Greece","Hungary","Iceland","Ireland","Israel","Italy",
-        "Kenya","Kuwait","Luxembourg","Morocco","Netherland","Nigeria","Norway","Poland",
-        "Portugal","Qatar","Romania","Russia","Saudi Arabia","Senegal","Serbia","Slovakia",
-        "South Africa","Spain","Sweden","Switzerland","Tunisia","Turkey","UAE","UK","Uganda","Ukraine"
-      ],
-      americas: [
-        "Argentina","Brazil","Canada","Chile","Columbia","Madagascar","Mexico","Panama","Peru","USA"
-      ]
+      apac: ["Australia","Bangladesh","China","Hong Kong","India","Indonesia","Japan","Malaysia","Myanmar","Nepal","New Zealand","Pakistan","Philippines","Singapore","South Korea","Sri Lanka","Thailand","Vietnam"],
+      emea: ["Algeria","Angola","Austria","Belgium","Bulgaria","Czech Republic","Denmark","Egypt","Finland","France","Germany","Greece","Hungary","Iceland","Ireland","Israel","Italy","Kenya","Kuwait","Luxembourg","Morocco","Netherland","Nigeria","Norway","Poland","Portugal","Qatar","Romania","Russia","Saudi Arabia","Senegal","Serbia","Slovakia","South Africa","Spain","Sweden","Switzerland","Tunisia","Turkey","UAE","UK","Uganda","Ukraine"],
+      americas: ["Argentina","Brazil","Canada","Chile","Columbia","Madagascar","Mexico","Panama","Peru","USA"]
     };
 
-    // Populate dropdown lists on load
     function populateDropdowns() {
       addRegionList('apac', regions.apac);
       addRegionList('emea', regions.emea);
@@ -261,14 +191,14 @@
 
     function addRegionList(id, list) {
       const container = document.getElementById(id);
-      container.innerHTML = ''; // clear
+      container.innerHTML = '';
       list.forEach(country => {
         const link = document.createElement('a');
-        link.href = "markdown-viewer.html?file=" + encodeURIComponent(countries[country] || '');
+        const file = countries[country] || '';
+        link.href = "markdown-viewer.html?file=" + encodeURIComponent(file);
         link.textContent = country;
         link.onclick = function(e) {
-          // if file mapping missing, prevent navigation and show alert
-          if (!countries[country]) {
+          if (!file) {
             e.preventDefault();
             alert('File not found for ' + country + '. Check mapping or filename case.');
           }
@@ -277,20 +207,22 @@
       });
     }
 
-    // Toggle dropdown visibility
     function toggleDropdown(id) {
       const el = document.getElementById(id);
-      const caret = document.getElementById(id + '-caret') || document.getElementById(id + '-caret');
       if (!el) return;
       const isOpen = el.style.display === 'block';
-      // close all first
+      // close all
       document.querySelectorAll('.dropdown .list').forEach(d => d.style.display = 'none');
       document.querySelectorAll('.dropdown .head span:last-child').forEach(s => s.textContent = '▾');
       if (!isOpen) {
         el.style.display = 'block';
-        // update caret in head
         const headCaret = document.querySelector('#dropdown-' + id + ' .head span:last-child');
-        if (headCaret) headCaret.textContent = '▴';
+        // update caret for clicked dropdown
+        const head = document.querySelector('#dropdown-' + id + ' .head');
+        if (head) {
+          const caret = head.querySelector('span:last-child');
+          if (caret) caret.textContent = '▴';
+        }
       } else {
         el.style.display = 'none';
       }
@@ -305,7 +237,6 @@
       }
     });
 
-    // Search function (shows matching links)
     function searchCountry(event) {
       const q = document.getElementById('search').value.trim().toLowerCase();
       const results = document.getElementById('results');
@@ -337,7 +268,15 @@
       }
     }
 
-    // Initialize
+    function showAdmin() {
+      document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closeAdmin(e) {
+      if (e && e.type === 'click' && e.target !== document.getElementById('adminModal')) return;
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    // Initialize lists on load
     populateDropdowns();
   </script>
 </body>
