@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HR Laws Portal</title>
+</head>
+<body>
+  <h1>HR & Labor Law Reference Guide</h1>
+  <input type="text" id="search" placeholder="Search country..." onkeyup="searchCountry()">
+  <ul id="results"></ul>
+
+  <script>
+    // Full list of countries mapped to their Markdown files
+    const countries = {
+      // APAC
+      "Australia": "APAC/Australia.md",
+      "Bangladesh": "APAC/Bangladesh.md",
+      "China": "APAC/China.md",
+      "Hong Kong": "APAC/Hong Kong.md",
+      "India": "APAC/India.md",
+      "Indonesia": "APAC/Indonesia.md",
+      "Japan": "APAC/Japan.md",
+      "Malaysia": "APAC/Malaysia.md",
+      "Myanmar": "APAC/Myanmar.md",
+      "Nepal": "APAC/Nepal.md",
+      "New Zealand": "APAC/New Zealand.md",
+      "Pakistan": "APAC/Pakistan.md",
+      "Philippines": "APAC/Philippines.md",
+      "Singapore": "APAC/Singapore.md",
+      "South Korea": "APAC/South Korea.md",
+      "Sri Lanka": "APAC/Sri Lanka.md",
+      "Thailand": "APAC/Thailand.md",
+      "Vietnam": "APAC/Vietnam.md",
+
+      // EMEA
+      "Algeria": "EMEA/Algeria.md",
+      "Angola": "EMEA/Angola.md",
+      "Austria": "EMEA/Austria.md",
+      "Belgium": "EMEA/Belgium.md",
+      "Bulgaria": "EMEA/Bulgaria.md",
+      "Czech Republic": "EMEA/Czech Republic.md",
+      "Denmark": "EMEA/Denmark.md",
+      "Egypt": "EMEA/Egypt.md",
+      "Finland": "EMEA/Finland.md",
+      "France": "EMEA/France.md",
+      "Germany": "EMEA/Germany.md",
+      "Greece": "EMEA/Greece .md",
+      "Hungary": "EMEA/Hungary.md",
+      "Iceland": "EMEA/Iceland.md",
+      "Ireland": "EMEA/Ireland.md",
+      "Israel": "EMEA/Israel.md",
+      "Italy": "EMEA/Italy.md",
+      "Kenya": "EMEA/Kenya.md",
+      "Kuwait": "EMEA/Kuwait.md",
+      "Luxembourg": "EMEA/Luxembourg.md",
+      "Morocco": "EMEA/Morocco.md",
+      "Netherland": "EMEA/Netherland.md",
+      "Nigeria": "EMEA/Nigeria.md",
+      "Norway": "EMEA/Norway.md",
+      "Poland": "EMEA/Poland.md",
+      "Portugal": "EMEA/Portugal.md",
+      "Qatar": "EMEA/Qatar.md",
+      "Romania": "EMEA/Romania.md",
+      "Russia": "EMEA/Russia.md",
+      "Saudi Arabia": "EMEA/Saudi Arabia.md",
+      "Senegal": "EMEA/Senegal.md",
+      "Serbia": "EMEA/Serbia.md",
+      "Slovakia": "EMEA/Slovakia.md",
+      "South Africa": "EMEA/South Africa.md",
+      "Spain": "EMEA/Spain.md",
+      "Sweden": "EMEA/Sweden.md",
+      "Switzerland": "EMEA/Switzerland.md",
+      "Tunisia": "EMEA/Tunisia.md",
+      "Turkey": "EMEA/Turkey.md",
+      "UAE": "EMEA/UAE.md",
+      "UK": "EMEA/UK.md",
+      "Uganda": "EMEA/Uganda.md",
+      "Ukraine": "EMEA/Ukraine.md",
+
+      // AMERICAS
+      "Argentina": "AMERICAS/Argentina.md",
+      "Brazil": "AMERICAS/Brazil.md",
+      "Canada": "AMERICAS/Canada.md",
+      "Chile": "AMERICAS/Chile.md",
+      "Columbia": "AMERICAS/Columbia.md",
+      "Madagascar": "AMERICAS/Madagascar.md",
+      "Mexico": "AMERICAS/Mexico.md",
+      "Panama": "AMERICAS/Panama.md",
+      "Peru": "AMERICAS/Peru.md",
+      "USA": "AMERICAS/USA.md"
+    };
+
+    function searchCountry() {
+      let query = document.getElementById("search").value.toLowerCase();
+      let results = document.getElementById("results");
+      results.innerHTML = "";
+      for (let c in countries) {
+        if (c.toLowerCase().includes(query)) {
+          let li = document.createElement("li");
+          let link = document.createElement("a");
+          // Use markdown viewer for nicer rendering
+          link.href = "markdown-viewer.html?file=" + countries[c];
+          link.textContent = c;
+          li.appendChild(link);
+          results.appendChild(li);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
