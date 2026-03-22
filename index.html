@@ -1,20 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HR Laws Portal - Login</title>
+  <title>HR Universe - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0a1f44; /* Navy Blue */
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-box {
+      background: white;
+      color: #0a1f44;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 300px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #0a1f44;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #0a1f44;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #163d7a;
+    }
+  </style>
 </head>
 <body>
-  <h2>Login</h2>
-  <form onsubmit="login(); return false;">
-    <label>Username:</label>
-    <input type="text" id="user"><br><br>
-    <label>Password:</label>
-    <input type="password" id="pass"><br><br>
-    <button type="submit">Login</button>
-  </form>
+  <div class="login-box">
+    <h2>HR Universe</h2>
+    <p>HR & Labour Guide</p>
+    <form onsubmit="login(); return false;">
+      <input type="text" id="user" placeholder="Username"><br>
+      <input type="password" id="pass" placeholder="Password"><br>
+      <button type="submit">Login</button>
+    </form>
+  </div>
 
   <script>
-    // Simple internal login (not secure)
     const users = {
       "shubh": "mypassword",
       "hrteam": "secure123",
@@ -25,7 +64,6 @@
       let u = document.getElementById("user").value;
       let p = document.getElementById("pass").value;
       if(users[u] === p) {
-        // Redirect to portal page
         window.location.href = "portal.html";
       } else {
         alert("Invalid login");
